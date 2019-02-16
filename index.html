@@ -1,0 +1,65 @@
+<html lang="ja">
+<head>
+    <meta charset="utf8" />
+    <!-- cssライブラリの読み込み -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.0/css/bulma.min.css">
+    <!-- 自分で書いたcssの読み込み -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id='app'>
+
+    <!-- ▼画面上部の緑の部分 -->
+    <header>
+        <p id="qrImageIcon" v-on:mouseenter="showedQr = true" v-on:mouseleave="showedQr = false"><img :src="qrUrl" /></p>
+        <h1 class="title is-5">お気軽にチャットができるアプリ</h1>
+        <p class="chaturl subtitle"><a v-bind:href="developerSite" target="_blank">気軽にchat</a></p>
+    </header>
+    <!-- ▲画面上部の緑の部分 -->
+
+    <p id="qrImage" v-bind:class="{'showedQr' : showedQr }"><img :src="qrUrl" /></p>
+
+    <div id="message-contents">
+        <!-- ▼メッセージ一個ぶんの表示 -->
+        <div v-for="message in messageList" :key="message.key" class="message-wrapper is-clearfix">
+            <div class="box" v-bind:class="{'mymessage' : isMyMessage(message) }">
+                <div class="content">
+                    <p>
+                    <strong>{{message.userName}}</strong><br />
+                    <small>{{displayTime(message)}} | {{platformName(message)}} </small>
+                    <br />
+                    {{message.message}}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!-- ▲メッセージ一個ぶんの表示 -->
+    </div>
+    
+    <!-- ▼メッセージ入力部分 -->
+    <footer>
+        <div class="field is-grouped">
+            <div class="control is-expanded">
+                <input v-model="message" v-on:keydown.enter="send" class="input is-medium" type="text" placeholder="Message" />
+            </div>
+            <div class="control control-submit">
+                <button v-bind:disabled="message.length==0" v-on:click="send" class="button is-primary button-submit">送信</button>
+            </div>
+        </div>
+    </footer>
+    <!-- ▲メッセージ入力部分 -->
+</div>
+
+<!-- javascriptライブラリの読み込み -->
+<script src="https://unpkg.com/vue"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.24.0/babel.js"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.2.0/anime.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-database.js"></script>
+
+<!-- 自分で書いたjavascriptの読み込み -->
+<script type='text/babel' src="script.js"></script>
+</body>
+</html>
